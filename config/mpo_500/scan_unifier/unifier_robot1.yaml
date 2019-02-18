@@ -1,0 +1,4 @@
+loop_rate: 100
+input_scans:
+- /robot1/sick_s300_front/scan
+- /robot1/sick_s300_back/scan

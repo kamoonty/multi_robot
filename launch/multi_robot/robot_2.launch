@@ -1,0 +1,33 @@
+<launch>
+    <arg name="second_robot" default="robot2"/>
+    <arg name="second_robot_x_pos" default="2"/>
+    <arg name="second_robot_y_pos" default="2"/>
+    <arg name="second_robot_z_pos" default=" 0.0"/>
+    <arg name="second_robot_yaw" default=" 0"/>
+
+    <group ns = "$(arg second_robot)">
+         <!--Robot description to param server-->
+        <param name="robot_description" command="$(find xacro)/xacro.py '$(find neo_simulation)/robots/mpo_500/mpo_500.urdf.xacro'"/>
+          <!--To publish Joint and Robot state-->
+        <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher" output="screen">
+            <param name="publish_frequency" type="double" value="20.0" />
+           <!-- <param name="tf_prefix" value="$(arg second_robot)" />  -->
+        </node>
+       
+        <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+            <param name="rate" value="20.0"/>
+            <!-- <param name="tf_prefix" value="$(arg second_robot)" />  -->
+        </node>
+        
+         <!--To spawn robot-->
+         <node name="mpo_500_spawn" pkg="gazebo_ros" type="spawn_model" output="screen"
+  args="-urdf -model $(arg second_robot) -x $(arg second_robot_x_pos) -y $(arg second_robot_y_pos) -z $(arg second_robot_z_pos) -Y $(arg second_robot_yaw) -param robot_description" />
+        
+           <!--To create link broadcaster-->
+        <param name="tf_prefix" value="$(arg second_robot)" /> 
+        <node pkg="tf" type="static_transform_publisher" name="link_broadcaster" args="second_robot_x_pos second_robot_y_pos second_robot_z_pos second_robot_yaw 0 0 /map /$(arg second_robot)/odom 100" />
+   
+        
+      
+    </group>
+</launch>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+  <!--set to the required robot type and world-->
+<arg name="robot_type" value="mpo_500"/>
+<arg name="robot_world" value="neo_track1.world"/>
+  <!--To launch RVIZ set the value to true-->
+  <arg name="rviz" value="true"/>
+
+  <!-- Open Gazebo -->
+<include file= "$(find neo_simulation)/launch/multi_robot/multi_simulation_gazebo.launch"/>
+
+  <!-- Autonomous Navigation 
+  <group if="$(arg autonomous_navigation)">
+      <include file="$(find neo_simulation)/launch/$(arg robot_type)/$(arg robot_type)_autonomous_navigation.launch"/>
+  </group>  -->
+ 
+
+  <!-- RVIZ 
+  <group if="$(arg rviz)">
+      <include file="$(find neo_simulation)/launch/multi_robot_rviz.launch"/>
+  </group> -->
+
+</launch>

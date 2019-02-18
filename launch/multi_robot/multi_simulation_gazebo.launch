@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<launch>
+
+  <!--set to the required robot and world-->
+  <arg name="robotworld" value="neo_track1.world"/>
+
+  <!--To launch RVIZ set the value to true-->
+  <arg name="rviz" value="false"/>
+
+  <!--To launch scanunifier set the value to true  -->
+  <arg name="scanunifier" value="false"/>   
+
+  <!--To move robot using teleop_keyboard
+  <arg name="software_joystick" value="false"/>  -->
+
+<!---=================================================================================================================================================================-->
+
+  <!--Gazebo Variables--> 
+  <arg name="world" default="empty"/> 
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gui" default="false"/>
+  <arg name="headless" default="false"/>
+  <arg name="debug" default="false"/>
+  
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+    <arg name="world_name" value="$(find neo_simulation)/worlds/$(arg robotworld)"/>
+    <arg name="paused" value="$(arg paused)"/>
+    <arg name="use_sim_time" value="$(arg use_sim_time)"/>
+    <arg name="gui" value="$(arg gui)"/>
+    <arg name="headless" value="$(arg headless)"/>
+    <arg name="debug" value="$(arg debug)"/>
+  </include>
+<!---=================================================================================================================================================================-->
+
+  <!--Spawn robot-->
+<include file="$(find neo_simulation)/launch/multi_robot/robot_1.launch" />
+  <!--Spawn robot 
+<include file="$(find neo_simulation)/launch/multi_robot/robot_2.launch" /> -->   
+
+<!---=================================================================================================================================================================-->
+  <!--if arg scan-unifier is set to true  
+    <group if="$(arg scanunifier)">
+    <include file="$(find neo_simulation)/config/mpo_500/scan_unifier/mpo_500_scan_unifier_robot1.launch"/>
+    </group>    -->
+
+  
+
+<!---=================================================================================================================================================================-->
+ 
+ <!--Neo control Package  **To use teleop-keyboard and joystick, neo_control package must be cloned to the workspace**--> 
+ 
+ <!--if arg software_joystick is set to true
+
+ <group if="$(arg software_joystick)">
+   <node pkg="teleop_twist_keyboard" type="teleop_twist_keyboard.py" name="teleop_keyboard"  output="screen">
+  </node>
+ </group> -->
+
+<!---=================================================================================================================================================================-->
+
+</launch>
